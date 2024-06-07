@@ -862,7 +862,9 @@ public class DownloadManagerTest {
   }
 
   private void assertDownloadIndexSize(int expectedSize) throws IOException {
-    assertThat(postGetDownloadIndex().getDownloads().getCount()).isEqualTo(expectedSize);
+    try (DownloadCursor cursor = postGetDownloadIndex().getDownloads()) {
+      assertThat(cursor.getCount()).isEqualTo(expectedSize)
+    }
   }
 
   private static void assertEqualIgnoringUpdateTime(Download download, Download that) {

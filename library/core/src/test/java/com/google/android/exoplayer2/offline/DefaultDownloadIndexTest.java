@@ -143,7 +143,9 @@ public class DefaultDownloadIndexTest {
 
   @Test
   public void getDownloads_emptyDownloadIndex_returnsEmptyArray() throws DatabaseIOException {
-    assertThat(downloadIndex.getDownloads().getCount()).isEqualTo(0);
+    try (DownloadCursor cursor = downloadIndex.getDownloads()) {
+      assertThat(cursor.getCount()).isEqualTo(0);
+    }
   }
 
   @Test
